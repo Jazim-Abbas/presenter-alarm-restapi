@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import * as bcrypt from "bcryptjs";
 import { UserEntity, UserSchema } from "./entities/user.entity";
+import { passwordHashMiddleware } from "./middlewares/password-hash.middleware";
 import { UserService } from "./user.service";
 
 @Module({
@@ -11,25 +11,7 @@ import { UserService } from "./user.service";
         name: UserEntity.name,
         useFactory: () => {
           const schema = UserSchema;
-
-          schema.pre("save", function (next) {
-            const user = this;
-
-            if (!user.password) return next();
-
-            if (!user.isModified("password")) return next();
-
-            bcrypt.genSalt(10, function (err, salt) {
-              if (err) return next(err);
-
-              bcrypt.hash(user.password, salt, function (err, hash) {
-                if (err) return next(err);
-                user.password = hash;
-                next();
-              });
-            });
-          });
-
+          schema.pre("save", passwordHashMiddleware);
           return schema;
         },
       },
