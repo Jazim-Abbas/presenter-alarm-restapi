@@ -12,9 +12,22 @@ export class UserService {
   ) {}
 
   async createSuperUser(createUserDto: CreateUserDto) {
+    await this.throwErrorIfSuperUserExists();
+    const superUser: SuperUser = { ...createUserDto, isSuperUser: true };
+    return this.createUser(superUser);
+  }
+
+  private async throwErrorIfSuperUserExists() {
+    const user = await this.userModel.findOne({ isSuperUser: true });
+
+    if (user) {
+      throw new BadRequestException("Ssuperuser should be created only once");
+    }
+  }
+
+  private async createUser(user) {
     try {
-      const superUser: SuperUser = { ...createUserDto, isSuperUser: true };
-      const newUser = new this.userModel({ ...superUser });
+      const newUser = new this.userModel({ ...user });
       return await newUser.save();
     } catch (_) {
       throw new BadRequestException("Email already exists");
