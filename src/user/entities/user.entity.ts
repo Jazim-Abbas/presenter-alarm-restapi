@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
-@Schema({ collection: "users"})
+@Schema({ collection: "users" })
 export class UserEntity extends Document {
   @Prop()
   name: string;
@@ -18,7 +18,7 @@ export class UserEntity extends Document {
   @Prop({ type: Boolean, default: false })
   isAdmin: boolean;
 
-  @Prop({ type: Boolean, default: true })
+  @Prop({ type: Boolean, default: false })
   isModerator: Boolean;
 }
 
