@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
-@Schema()
-export class User extends Document {
+@Schema({ collection: "users"})
+export class UserEntity extends Document {
   @Prop()
   name: string;
 
@@ -22,4 +22,4 @@ export class User extends Document {
   isModerator: Boolean;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(UserEntity);
