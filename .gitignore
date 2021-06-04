@@ -1,3 +1,5 @@
+*.env
+
 .eslintrc.js
 .prettierrc
 
