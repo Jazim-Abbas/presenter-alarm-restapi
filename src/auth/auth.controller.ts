@@ -10,14 +10,16 @@ export class AuthController {
 
   @Post("register-superuser")
   async createSuperUser(@Body() createUserDto: CreateUserDto) {
-    return this.authService.createSuperUser(createUserDto);
+    await this.authService.createSuperUser(createUserDto);
+    return "Successfully created superuser";
   }
 
   @Post("register-user")
   async createAdminOrModerator(
     @Body() createAdminOrModerator: CreateAdminOrModeratorDto
   ) {
-    return this.authService.createAdminOrModerator(createAdminOrModerator);
+    await this.authService.createAdminOrModerator(createAdminOrModerator);
+    return "Successfully created user";
   }
 
   @Post("login")
