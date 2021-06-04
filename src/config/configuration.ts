@@ -3,6 +3,6 @@ export default () => {
   const password = process.env.MONGO_PASSWORD || "password";
 
   return {
-    MONGO_URI: `mongodb://${username}:${password}@localhost:27017/presenter-alarm-app?authSource=admin`,
+    MONGO_URI: `mongodb://${username}:${password}@localhost/presenter-alarm-app?authSource=admin`,
   };
 };
