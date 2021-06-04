@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { AdminOrModeratorDto } from "src/auth/dtos/create-admin-moderator.dto";
 import { CreateUserDto } from "src/auth/dtos/create-user.dto";
 import { UserLoginDto } from "src/auth/dtos/user-login.dto";
 import { SuperUser } from "src/auth/interfaces/superuser.interface";
@@ -20,6 +21,10 @@ export class UserService {
     await this._throwErrorIfSuperUserExists();
     const superUser: SuperUser = { ...createUserDto, isSuperUser: true };
     return this._createUser(superUser);
+  }
+
+  async createAdminOrModerator(adminOrModeratorDto: AdminOrModeratorDto) {
+    return this._createUser(adminOrModeratorDto);
   }
 
   async findByLogin(userLoginDto: UserLoginDto) {

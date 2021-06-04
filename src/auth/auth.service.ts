@@ -1,6 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UserService } from "src/user/user.service";
+import {
+  AdminOrModeratorDto,
+  CreateAdminOrModeratorDto,
+  UserType,
+} from "./dtos/create-admin-moderator.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
 
@@ -15,12 +20,29 @@ export class AuthService {
     return this.userService.createSuperUser(createUserDto);
   }
 
+  async createAdminOrModerator(
+    createAdminOrModeratorDto: CreateAdminOrModeratorDto
+  ) {
+    const { accountType } = createAdminOrModeratorDto;
+    const isAdmin = this._isUserAdmin(accountType);
+
+    const adminOrModeratorDto: AdminOrModeratorDto = {
+      ...createAdminOrModeratorDto,
+      isAdmin,
+    };
+    return this.userService.createAdminOrModerator(adminOrModeratorDto);
+  }
+
   async login(userLoginDto: UserLoginDto) {
     const user = await this.userService.findByLogin(userLoginDto);
     const token = this._createUserToken(user["_doc"]);
 
     const fields = { ...user["_doc"], token: token };
     return this._getUserFieldsExcludePassword(fields);
+  }
+
+  private _isUserAdmin(userType: UserType) {
+    return userType.valueOf() == UserType.ADMIN;
   }
 
   private _createUserToken(user) {
