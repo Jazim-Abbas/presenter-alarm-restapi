@@ -6,6 +6,7 @@ import {
   CreateAdminOrModeratorDto,
   UserType,
 } from "./dtos/create-admin-moderator.dto";
+import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
 
@@ -18,6 +19,10 @@ export class AuthService {
 
   async createSuperUser(createUserDto: CreateUserDto) {
     return this.userService.createSuperUser(createUserDto);
+  }
+
+  async createAnyUserButNotSuperUser(createUserDto: CreateUserWithRoleDto) {
+    return this.userService.createUser(createUserDto);
   }
 
   async createAdminOrModerator(

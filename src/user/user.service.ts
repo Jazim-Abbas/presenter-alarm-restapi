@@ -6,6 +6,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { AdminOrModeratorDto } from "src/auth/dtos/create-admin-moderator.dto";
+import { CreateUserWithRoleDto } from "src/auth/dtos/create-user-with-role.dto";
 import { CreateUserDto } from "src/auth/dtos/create-user.dto";
 import { UserLoginDto } from "src/auth/dtos/user-login.dto";
 import { SuperUser } from "src/auth/interfaces/superuser.interface";
@@ -20,11 +21,13 @@ export class UserService {
 
   async createSuperUser(createUserDto: CreateUserDto) {
     await this._throwErrorIfSuperUserExists();
-    // const superUser: SuperUser = { ...createUserDto, isSuperUser: true };
-    // return this._createUser(superUser);
 
     const superUser = { ...createUserDto, role: UserRole.SUPER_USER };
     return this._createUser(superUser);
+  }
+
+  async createUser(createUserDto: CreateUserWithRoleDto) {
+    return this._createUser(createUserDto);
   }
 
   async createAdminOrModerator(adminOrModeratorDto: AdminOrModeratorDto) {
@@ -41,7 +44,7 @@ export class UserService {
   }
 
   private async _throwErrorIfSuperUserExists() {
-    const user = await this.userModel.findOne({ isSuperUser: true });
+    const user = await this.userModel.findOne({ role: UserRole.ADMIN });
 
     if (user) {
       throw new BadRequestException("Ssuperuser should be created only once");
