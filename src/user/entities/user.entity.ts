@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { UserRole } from "src/auth/interfaces/user-role.interface";
 
 @Schema({ collection: "users" })
 export class UserEntity extends Document {
@@ -12,14 +13,8 @@ export class UserEntity extends Document {
   @Prop()
   password: string;
 
-  @Prop({ type: Boolean, default: false })
-  isSuperUser: boolean;
-
-  @Prop({ type: Boolean, default: false })
-  isAdmin: boolean;
-
-  @Prop({ type: Boolean, default: false })
-  isModerator: Boolean;
+  @Prop({ type: UserRole })
+  role: UserRole;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserEntity);
