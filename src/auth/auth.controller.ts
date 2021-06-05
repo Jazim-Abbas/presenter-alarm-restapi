@@ -1,8 +1,12 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { Roles, RolesGuardAuth } from "src/common/decorators/roles.decorator";
+import { RolesGuard } from "src/common/guards/roles.guard";
 import { AuthService } from "./auth.service";
 import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
+import { UserRole } from "./interfaces/user-role.interface";
 
 @Controller("auth")
 export class AuthController {
@@ -14,6 +18,8 @@ export class AuthController {
     return "Successfully created superuser";
   }
 
+  @RolesGuardAuth()
+  @Roles(UserRole.SUPER_USER)
   @Post("register-user")
   async createAnyUserButNotSuperUser(
     @Body() createUserDto: CreateUserWithRoleDto

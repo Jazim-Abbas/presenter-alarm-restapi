@@ -4,5 +4,6 @@ export default () => {
 
   return {
     MONGO_URI: `mongodb://${username}:${password}@localhost/presenter-alarm-app?authSource=admin`,
+    SECRETKEY: 'mykey'
   };
 };

@@ -21,8 +21,6 @@ export class AuthService {
     return this.userService.createUser(createUserDto);
   }
 
-  
-
   async login(userLoginDto: UserLoginDto) {
     const user = await this.userService.findByLogin(userLoginDto);
     const token = this._createUserToken(user["_doc"]);
@@ -30,8 +28,6 @@ export class AuthService {
     const fields = { ...user["_doc"], token: token };
     return this._getUserFieldsExcludePassword(fields);
   }
-
- 
 
   private _createUserToken(user) {
     const accessToken = this.jwtService.sign({ ...user });
