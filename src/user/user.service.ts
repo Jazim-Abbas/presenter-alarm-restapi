@@ -5,11 +5,9 @@ import {
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { AdminOrModeratorDto } from "src/auth/dtos/create-admin-moderator.dto";
 import { CreateUserWithRoleDto } from "src/auth/dtos/create-user-with-role.dto";
 import { CreateUserDto } from "src/auth/dtos/create-user.dto";
 import { UserLoginDto } from "src/auth/dtos/user-login.dto";
-import { SuperUser } from "src/auth/interfaces/superuser.interface";
 import { UserRole } from "src/auth/interfaces/user-role.interface";
 import { UserEntity } from "./entities/user.entity";
 
@@ -28,10 +26,6 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserWithRoleDto) {
     return this._createUser(createUserDto);
-  }
-
-  async createAdminOrModerator(adminOrModeratorDto: AdminOrModeratorDto) {
-    return this._createUser(adminOrModeratorDto);
   }
 
   async findByLogin(userLoginDto: UserLoginDto) {

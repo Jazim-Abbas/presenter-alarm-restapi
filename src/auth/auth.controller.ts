@@ -1,6 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { CreateAdminOrModeratorDto } from "./dtos/create-admin-moderator.dto";
 import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
