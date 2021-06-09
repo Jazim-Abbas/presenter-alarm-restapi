@@ -12,6 +12,11 @@ export class PresenterPermissionService {
   ) {}
 
   async createPermission(createPermissionDto: CreatePresenterPermissionDto) {
+    const permissionInDb = await this.permissionModel.findOne();
+
+    if (permissionInDb)
+      throw new BadRequestException("Permission for presenter already created");
+
     const permission = new this.permissionModel({ ...createPermissionDto });
     return await permission.save();
   }
