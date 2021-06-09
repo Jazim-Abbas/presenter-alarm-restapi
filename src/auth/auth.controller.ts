@@ -4,6 +4,7 @@ import { AuthService } from "./auth.service";
 import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { SwitchUserRoleDto } from "./dtos/switch-user-role.dto";
+import { UpdateProfileDto } from "./dtos/update-profile.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
 import { UserRole } from "./interfaces/user-role.interface";
 
@@ -37,5 +38,10 @@ export class AuthController {
   @Post("switch-user-role")
   async switchUserRole(@Body() switchUserRoleDto: SwitchUserRoleDto) {
     return this.authService.switchUserRole(switchUserRoleDto);
+  }
+
+  @Post("update-profile")
+  async updateProfile(@Body() updateProfileDto: UpdateProfileDto) {
+    return updateProfileDto;
   }
 }
