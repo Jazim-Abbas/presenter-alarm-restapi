@@ -1,12 +1,14 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateUserWithRoleDto } from "src/auth/dtos/create-user-with-role.dto";
 import { CreateUserDto } from "src/auth/dtos/create-user.dto";
+import { SwitchUserRoleDto } from "src/auth/dtos/switch-user-role.dto";
 import { UserLoginDto } from "src/auth/dtos/user-login.dto";
 import { UserRole } from "src/auth/interfaces/user-role.interface";
 import { UserEntity } from "./entities/user.entity";
@@ -26,6 +28,15 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserWithRoleDto) {
     return this._createUser(createUserDto);
+  }
+
+  async switchUserRole(userRole: SwitchUserRoleDto) {
+    const user = await this.userModel.findById(userRole.userId);
+
+    if (!user) throw new NotFoundException("user not found");
+
+    user.role = userRole.role as unknown as UserRole;
+    await user.save();
   }
 
   async findByLogin(userLoginDto: UserLoginDto) {

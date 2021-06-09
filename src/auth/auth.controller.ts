@@ -36,6 +36,6 @@ export class AuthController {
   @Roles(UserRole.SUPER_USER)
   @Post("switch-user-role")
   async switchUserRole(@Body() switchUserRoleDto: SwitchUserRoleDto) {
-    return switchUserRoleDto;
+    return this.authService.switchUserRole(switchUserRoleDto);
   }
 }
