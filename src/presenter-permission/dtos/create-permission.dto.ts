@@ -1,6 +1,6 @@
 import { IsBoolean, IsOptional } from "class-validator";
 
-export class CreatePresenterPermissionDto {
+export class PresenterPermissionDto {
   @IsBoolean()
   @IsOptional()
   isTimeVisible?: boolean;

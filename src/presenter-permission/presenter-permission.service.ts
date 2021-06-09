@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { CreatePresenterPermissionDto } from "./dtos/create-permission.dto";
+import { PresenterPermissionDto } from "./dtos/create-permission.dto";
 import { PresenterPermissionEntity } from "./entities/presenter-permission.entity";
 
 @Injectable()
@@ -15,9 +15,7 @@ export class PresenterPermissionService {
     return this.permissionModel.findOne({}).exec();
   }
 
-  async createOrUpdatePermission(
-    createPermissionDto: CreatePresenterPermissionDto
-  ) {
+  async createOrUpdatePermission(createPermissionDto: PresenterPermissionDto) {
     return this.permissionModel
       .findOneAndUpdate(
         {},
