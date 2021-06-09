@@ -3,6 +3,7 @@ import { Roles, RolesGuardAuth } from "src/common/decorators/roles.decorator";
 import { AuthService } from "./auth.service";
 import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
+import { SwitchUserRoleDto } from "./dtos/switch-user-role.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
 import { UserRole } from "./interfaces/user-role.interface";
 
@@ -29,5 +30,10 @@ export class AuthController {
   @Post("login")
   async login(@Body() userLoginDto: UserLoginDto) {
     return this.authService.login(userLoginDto);
+  }
+
+  @Post("switch-user-role")
+  async switchUserRole(@Body() switchUserRoleDto: SwitchUserRoleDto) {
+    return switchUserRoleDto;
   }
 }
