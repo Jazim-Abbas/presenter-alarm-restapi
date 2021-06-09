@@ -5,6 +5,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { PresenterPermissionModule } from './presenter-permission/presenter-permission.module';
 import configuration from "./config/configuration";
 
 @Module({
@@ -19,6 +20,7 @@ import configuration from "./config/configuration";
     }),
     UserModule,
     AuthModule,
+    PresenterPermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
