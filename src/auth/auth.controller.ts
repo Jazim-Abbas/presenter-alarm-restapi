@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "src/common/decorators/auth.decorator";
 import { Roles, RolesGuardAuth } from "src/common/decorators/roles.decorator";
 import { AuthService } from "./auth.service";
 import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
@@ -40,6 +41,7 @@ export class AuthController {
     return this.authService.switchUserRole(switchUserRoleDto);
   }
 
+  @AuthGuard()
   @Post("update-profile")
   async updateProfile(@Body() updateProfileDto: UpdateProfileDto) {
     return updateProfileDto;
