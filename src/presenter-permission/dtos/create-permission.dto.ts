@@ -25,7 +25,7 @@ export class CreatePresenterPermissionDto {
   @IsOptional()
   isRemarksVisible?: boolean;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isCheckmarkBtnVisible?: boolean;
 }

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
-@Schema({ collection: "presenter-permissions" })
+@Schema({ collection: "presenter_permissions" })
 export class PresenterPermissionEntity extends Document {
   @Prop({ default: false })
   isTimeVisible: boolean;
