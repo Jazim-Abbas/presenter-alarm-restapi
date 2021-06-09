@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreatePresenterPermissionDto } from "./dtos/create-permission.dto";
@@ -11,13 +11,19 @@ export class PresenterPermissionService {
     private readonly permissionModel: Model<PresenterPermissionEntity>
   ) {}
 
-  async createPermission(createPermissionDto: CreatePresenterPermissionDto) {
-    const permissionInDb = await this.permissionModel.findOne();
+  async getPermission() {
+    return this.permissionModel.findOne({}).exec();
+  }
 
-    if (permissionInDb)
-      throw new BadRequestException("Permission for presenter already created");
-
-    const permission = new this.permissionModel({ ...createPermissionDto });
-    return await permission.save();
+  async createOrUpdatePermission(
+    createPermissionDto: CreatePresenterPermissionDto
+  ) {
+    return this.permissionModel
+      .findOneAndUpdate(
+        {},
+        { ...createPermissionDto },
+        { new: true, upsert: true }
+      )
+      .exec();
   }
 }

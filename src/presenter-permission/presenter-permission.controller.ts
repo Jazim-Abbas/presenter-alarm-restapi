@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CreatePresenterPermissionDto } from "./dtos/create-permission.dto";
 import { PresenterPermissionService } from "./presenter-permission.service";
@@ -8,12 +8,16 @@ import { PresenterPermissionService } from "./presenter-permission.service";
 export class PresenterPermissionController {
   constructor(private readonly permissionService: PresenterPermissionService) {}
 
+  @Get()
+  async getPermission() {
+    return this.permissionService.getPermission();
+    return "getting permission";
+  }
+
   @Post()
   async createPermission(
     @Body() createPermissionDto: CreatePresenterPermissionDto
   ) {
-    return this.permissionService.createPermission(createPermissionDto);
-    return createPermissionDto;
-    return "create presenter permission";
+    return this.permissionService.createOrUpdatePermission(createPermissionDto);
   }
 }
