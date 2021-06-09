@@ -32,18 +32,14 @@ export class UserService {
   }
 
   async switchUserRole(userRole: SwitchUserRoleDto) {
-    const user = await this.userModel.findById(userRole.userId);
-
-    if (!user) throw new NotFoundException("user not found");
+    const user = await this._getUserOrThrowError(userRole.userId);
 
     user.role = userRole.role as unknown as UserRole;
     await user.save();
   }
 
   async updateUserProfile(profile: UserProfile) {
-    const user = await this.userModel.findById(profile.user);
-
-    if (!user) throw new NotFoundException("user not found");
+    const user = await this._getUserOrThrowError(profile.user);
 
     try {
       const { name, email } = profile;
@@ -80,6 +76,14 @@ export class UserService {
     } catch (_) {
       throw new BadRequestException("Email already exists");
     }
+  }
+
+  private async _getUserOrThrowError(userId: string) {
+    const user = await this.userModel.findById(userId);
+
+    if (!user) throw new NotFoundException("user not found");
+
+    return user;
   }
 
   private async _findByEmail(email: string) {

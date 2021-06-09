@@ -39,7 +39,8 @@ export class AuthController {
   @Roles(UserRole.SUPER_USER)
   @Post("switch-user-role")
   async switchUserRole(@Body() switchUserRoleDto: SwitchUserRoleDto) {
-    return this.authService.switchUserRole(switchUserRoleDto);
+    await this.authService.switchUserRole(switchUserRoleDto);
+    return { message: "Successfully update the user role" };
   }
 
   @AuthGuard()
@@ -53,7 +54,5 @@ export class AuthController {
       user: userId,
     });
     return { message: "Successfully update the user profile" };
-    return userId;
-    return updateProfileDto;
   }
 }

@@ -32,8 +32,7 @@ export class AuthService {
   }
 
   async switchUserRole(switchUserRoleDto: SwitchUserRoleDto) {
-    await this.userService.switchUserRole(switchUserRoleDto);
-    return { message: "Successfully update the user role" };
+    return this.userService.switchUserRole(switchUserRoleDto);
   }
 
   async updateUserProfile(userProfile: UserProfile) {
