@@ -1,5 +1,5 @@
 export class UserProfile {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
   user: string;
 }

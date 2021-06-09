@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "src/common/decorators/auth.decorator";
 import { Roles, RolesGuardAuth } from "src/common/decorators/roles.decorator";
+import { User } from "src/common/decorators/user.decorator";
 import { AuthService } from "./auth.service";
 import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
@@ -43,7 +44,16 @@ export class AuthController {
 
   @AuthGuard()
   @Post("update-profile")
-  async updateProfile(@Body() updateProfileDto: UpdateProfileDto) {
+  async updateProfile(
+    @Body() updateProfileDto: UpdateProfileDto,
+    @User("_id") userId: string
+  ) {
+    await this.authService.updateUserProfile({
+      ...updateProfileDto,
+      user: userId,
+    });
+    return { message: "Successfully update the user profile" };
+    return userId;
     return updateProfileDto;
   }
 }

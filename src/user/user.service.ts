@@ -10,6 +10,7 @@ import { CreateUserWithRoleDto } from "src/auth/dtos/create-user-with-role.dto";
 import { CreateUserDto } from "src/auth/dtos/create-user.dto";
 import { SwitchUserRoleDto } from "src/auth/dtos/switch-user-role.dto";
 import { UserLoginDto } from "src/auth/dtos/user-login.dto";
+import { UserProfile } from "src/auth/interfaces/user-profile.interface";
 import { UserRole } from "src/auth/interfaces/user-role.interface";
 import { UserEntity } from "./entities/user.entity";
 
@@ -36,6 +37,18 @@ export class UserService {
     if (!user) throw new NotFoundException("user not found");
 
     user.role = userRole.role as unknown as UserRole;
+    await user.save();
+  }
+
+  async updateUserProfile(profile: UserProfile) {
+    const user = await this.userModel.findById(profile.user);
+
+    if (!user) throw new NotFoundException("user not found");
+
+    const { name, email } = profile;
+    user.name = name ?? user.name;
+    user.email = email ?? user.email;
+
     await user.save();
   }
 

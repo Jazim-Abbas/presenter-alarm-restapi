@@ -6,6 +6,7 @@ import { CreateUserWithRoleDto } from "./dtos/create-user-with-role.dto";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { SwitchUserRoleDto } from "./dtos/switch-user-role.dto";
 import { UserLoginDto } from "./dtos/user-login.dto";
+import { UserProfile } from "./interfaces/user-profile.interface";
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,10 @@ export class AuthService {
   async switchUserRole(switchUserRoleDto: SwitchUserRoleDto) {
     await this.userService.switchUserRole(switchUserRoleDto);
     return { message: "Successfully update the user role" };
+  }
+
+  async updateUserProfile(userProfile: UserProfile) {
+    return this.userService.updateUserProfile(userProfile);
   }
 
   private _createUserToken(user) {
