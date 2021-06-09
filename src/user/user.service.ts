@@ -45,11 +45,15 @@ export class UserService {
 
     if (!user) throw new NotFoundException("user not found");
 
-    const { name, email } = profile;
-    user.name = name ?? user.name;
-    user.email = email ?? user.email;
+    try {
+      const { name, email } = profile;
+      user.name = name ?? user.name;
+      user.email = email ?? user.email;
 
-    await user.save();
+      await user.save();
+    } catch (_) {
+      throw new BadRequestException("Email already exists");
+    }
   }
 
   async findByLogin(userLoginDto: UserLoginDto) {
