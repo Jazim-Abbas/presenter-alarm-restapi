@@ -11,6 +11,10 @@ export class ModeratorPermissionService {
     private readonly permissionModel: Model<ModeratorPermissionEntity>
   ) {}
 
+  async getPermission() {
+    return this.permissionModel.findOne({}).exec();
+  }
+
   async createOrUpdatePermission(permssionDto: ModeratorPermissionDto) {
     return this.permissionModel
       .findOneAndUpdate({}, { ...permssionDto }, { new: true, upsert: true })
