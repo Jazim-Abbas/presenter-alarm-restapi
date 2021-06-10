@@ -6,7 +6,12 @@ import { RolesGuard } from "./common/guards/roles.guard";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidNonWhitelisted: true,
+      whitelist: true,
+    })
+  );
   // app.useGlobalGuards(new RolesGuard(new Reflector()));
 
   const config = new DocumentBuilder()
