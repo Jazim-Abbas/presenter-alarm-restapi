@@ -16,8 +16,13 @@ import { ProjectService } from "./project.service";
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
+  @Get()
+  async find() {
+    return this.projectService.getAllProjects();
+  }
+
   @Get(":id")
-  async find(@Param() params: FindOneParam) {
+  async findById(@Param() params: FindOneParam) {
     return this.projectService.getSingleProject(params.id);
   }
 

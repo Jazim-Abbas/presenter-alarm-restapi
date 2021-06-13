@@ -12,6 +12,10 @@ export class ProjectService {
     private readonly projectModel: Model<ProjectEntity>
   ) {}
 
+  async getAllProjects() {
+    return this.projectModel.find().exec();
+  }
+
   async getSingleProject(id: string) {
     const projectInDb = await this.projectModel.findById(id).exec();
     if (!projectInDb) throw new NotFoundException("Project not found");
