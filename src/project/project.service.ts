@@ -32,4 +32,10 @@ export class ProjectService {
     if (!updatedProject) throw new NotFoundException("Project not found");
     return updatedProject;
   }
+
+  async deleteProject(id: string) {
+    const project = await this.projectModel.findByIdAndDelete(id);
+    if (!project || !project.$isDeleted)
+      throw new NotFoundException("Project not found");
+  }
 }

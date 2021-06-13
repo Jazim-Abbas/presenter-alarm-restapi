@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from "@nestjs/common";
 import { FindOneParam } from "src/common/dtos/find-one-param.dto";
 import { CreateProjectDto } from "./dtos/create-project.dto";
 import { UpdateProjectDto } from "./dtos/update-project.dto";
@@ -11,8 +19,6 @@ export class ProjectController {
   @Get(":id")
   async find(@Param() params: FindOneParam) {
     return this.projectService.getSingleProject(params.id);
-    return params;
-    return "single project";
   }
 
   @Post()
@@ -26,5 +32,11 @@ export class ProjectController {
     @Body() updateProjectDto: UpdateProjectDto
   ) {
     return this.projectService.updateProject(params.id, updateProjectDto);
+  }
+
+  @Delete(":id")
+  async delete(@Param() params: FindOneParam) {
+    await this.projectService.deleteProject(params.id);
+    return { message: "Successfully deleted the project" };
   }
 }
