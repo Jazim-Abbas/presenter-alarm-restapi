@@ -12,6 +12,12 @@ export class ProjectService {
     private readonly projectModel: Model<ProjectEntity>
   ) {}
 
+  async getSingleProject(id: string) {
+    const projectInDb = await this.projectModel.findById(id).exec();
+    if (!projectInDb) throw new NotFoundException("Project not found");
+    return projectInDb;
+  }
+
   async saveProject(createProjectDto: CreateProjectDto) {
     const project = new this.projectModel({ ...createProjectDto });
     return await project.save();
@@ -23,9 +29,7 @@ export class ProjectService {
       { ...updateProjectDto },
       { new: true }
     );
-
     if (!updatedProject) throw new NotFoundException("Project not found");
-
     return updatedProject;
   }
 }

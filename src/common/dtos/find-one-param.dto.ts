@@ -1,6 +1,6 @@
 import { IsMongoId } from "class-validator";
 
 export class FindOneParam {
-  @IsMongoId()
+  @IsMongoId({ message: "Not a valid id" })
   id: string;
 }
