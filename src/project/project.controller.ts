@@ -8,7 +8,6 @@ export class ProjectController {
 
   @Post()
   async create(@Body() createProjectDto: CreateProjectDto) {
-    return createProjectDto;
-    return "create project";
+    return this.projectService.saveProject(createProjectDto);
   }
 }
