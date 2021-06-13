@@ -15,7 +15,7 @@ export class CreateProjectDto {
   title: string;
 
   @IsDateString()
-  scheduleDate: Date;
+  scheduleDate: string;
 
   @IsMilitaryTime()
   startTime: string;
