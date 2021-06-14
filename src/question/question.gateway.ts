@@ -6,6 +6,7 @@ import {
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
+import { UpdateQuestionDto } from "./dtos/update-question.dto";
 import { QuestionService } from "./question.service";
 
 @WSExceptionInterceptor()
@@ -24,5 +25,14 @@ export class QuestionGateway {
   async createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
     const question = await this.questionService.saveQuestion(createQuestionDto);
     return question;
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("update-question")
+  async updateQuestion(@MessageBody() updateQuestionDto: UpdateQuestionDto) {
+    const updatedQuestion = await this.questionService.updateQuestion(
+      updateQuestionDto
+    );
+    return updatedQuestion;
   }
 }
