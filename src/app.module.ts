@@ -3,11 +3,12 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { PresenterPermissionModule } from './presenter-permission/presenter-permission.module';
-import { ModeratorPermissionModule } from './moderator-permission/moderator-permission.module';
-import { ProjectModule } from './project/project.module';
+import { UserModule } from "./user/user.module";
+import { AuthModule } from "./auth/auth.module";
+import { PresenterPermissionModule } from "./presenter-permission/presenter-permission.module";
+import { ModeratorPermissionModule } from "./moderator-permission/moderator-permission.module";
+import { ProjectModule } from "./project/project.module";
+import { QuestionModule } from './question/question.module';
 import configuration from "./config/configuration";
 
 @Module({
@@ -25,6 +26,7 @@ import configuration from "./config/configuration";
     PresenterPermissionModule,
     ModeratorPermissionModule,
     ProjectModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
