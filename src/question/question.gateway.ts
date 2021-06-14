@@ -28,7 +28,8 @@ export class QuestionGateway {
 
   @WsValidationPipe()
   @SubscribeMessage("create-question")
-  createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
-    return createQuestionDto;
+  async createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
+    const question = await this.questionService.saveQuestion(createQuestionDto);
+    return question;
   }
 }

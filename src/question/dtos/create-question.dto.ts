@@ -11,6 +11,6 @@ export class CreateQuestionDto {
   @MaxLength(1000)
   questionText: string;
 
-  @IsMongoId()
+  @IsMongoId({ message: "Not a valid id" })
   project: string;
 }
