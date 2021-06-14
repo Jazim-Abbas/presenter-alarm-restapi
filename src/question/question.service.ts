@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { WsException } from "@nestjs/websockets";
 import { Model } from "mongoose";
 import { ProjectService } from "src/project/project.service";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
@@ -21,10 +20,6 @@ export class QuestionService {
   }
 
   private async _throwErrorIfProjectNotExists(projectId: string) {
-    try {
-      await this.projectService.getSingleProject(projectId);
-    } catch (err) {
-      throw new WsException(err);
-    }
+    await this.projectService.getSingleProject(projectId);
   }
 }

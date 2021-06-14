@@ -3,10 +3,12 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from "@nestjs/websockets";
+import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
 import { QuestionService } from "./question.service";
 
+@WSExceptionInterceptor()
 @WebSocketGateway()
 export class QuestionGateway {
   constructor(private readonly questionService: QuestionService) {}
