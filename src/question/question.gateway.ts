@@ -7,7 +7,8 @@ import {
 @WebSocketGateway()
 export class QuestionGateway {
   @SubscribeMessage("messageToServer")
-  handle(): WsResponse<any> {
-    return { event: "messageToClient", data: "Hello" };
+  handle(): string {
+    return "Hello";
+    // return { event: "messageToClient", data: "Hello" };
   }
 }
