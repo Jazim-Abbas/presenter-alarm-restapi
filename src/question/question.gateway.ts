@@ -1,18 +1,11 @@
-import {
-  ArgumentsHost,
-  Catch,
-  UseFilters,
-  UsePipes,
-  ValidationPipe,
-} from "@nestjs/common";
+import { ArgumentsHost, Catch } from "@nestjs/common";
 import {
   BaseWsExceptionFilter,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
-  WsException,
-  WsResponse,
 } from "@nestjs/websockets";
+import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
 import { QuestionService } from "./question.service";
 
@@ -23,7 +16,6 @@ export class AllExceptionFilter extends BaseWsExceptionFilter {
   }
 }
 
-// @UseFilters(new AllExceptionFilter())
 @WebSocketGateway()
 export class QuestionGateway {
   constructor(private readonly questionService: QuestionService) {}
@@ -34,13 +26,7 @@ export class QuestionGateway {
     // return { event: "messageToClient", data: "Hello" };
   }
 
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory: (errors) => {
-        return new WsException(errors);
-      },
-    })
-  )
+  @WsValidationPipe()
   @SubscribeMessage("create-question")
   createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
     return createQuestionDto;

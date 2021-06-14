@@ -1,5 +1,4 @@
-import { Module, ValidationPipe } from "@nestjs/common";
-import { APP_PIPE } from "@nestjs/core";
+import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Question, QuestionEntity } from "./entities/question.entity";
 import { QuestionGateway } from "./question.gateway";
@@ -11,10 +10,6 @@ import { QuestionService } from "./question.service";
       { name: QuestionEntity.name, schema: Question },
     ]),
   ],
-  providers: [
-    QuestionGateway,
-    QuestionService,
-    { provide: APP_PIPE, useClass: ValidationPipe },
-  ],
+  providers: [QuestionGateway, QuestionService],
 })
 export class QuestionModule {}
