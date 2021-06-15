@@ -23,7 +23,7 @@ export class IncomingQuestionGateway {
 
   @SubscribeMessage("all-incoming-questions")
   getAllIncomingQuestions() {
-    return this.incomingQuestionService.getAllIncomingQuestions();
+    return this.incomingQuestionService.getAllQuestions();
   }
 
   @WsValidationPipe()
