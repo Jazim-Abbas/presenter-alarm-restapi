@@ -34,7 +34,5 @@ export class ModeratorViewGateway {
       deleteQuestionIdDto
     );
     return { message: "Successfully delete question from moderator view" };
-    return deleteQuestionIdDto;
-    return "delete question";
   }
 }

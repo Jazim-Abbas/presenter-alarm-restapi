@@ -5,11 +5,7 @@ import { ModeratorViewEntity } from "src/moderator-view/entities/moderator-view.
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { QuestionService } from "src/question/question.service";
 import { DeleteQuestionIdDto } from "../dtos/delete-question-id.dto";
-
-interface QuestionSectionPayload {
-  projectId: string;
-  questionId: string;
-}
+import { MoveQuestionDto } from "../dtos/move-question.dto";
 
 export class GeneralQuestionService<
   T extends IncomingQuestionEntity | ModeratorViewEntity
@@ -27,6 +23,12 @@ export class GeneralQuestionService<
       .exec();
   }
 
+  async moveQuestion(moveQuestionDto: MoveQuestionDto) {
+    return this._saveQuestionForModeratorOrPresenterOrIncomingQuestion(
+      moveQuestionDto
+    );
+  }
+
   protected async saveQuestionForSections(
     createQuestionDto: CreateQuestionDto
   ) {
@@ -34,7 +36,7 @@ export class GeneralQuestionService<
       createQuestionDto
     );
 
-    const questionPayload: QuestionSectionPayload = {
+    const questionPayload: MoveQuestionDto = {
       projectId: createQuestionDto.project,
       questionId: questionInDb._id,
     };
@@ -64,7 +66,7 @@ export class GeneralQuestionService<
   }
 
   private async _saveQuestionForModeratorOrPresenterOrIncomingQuestion(
-    questionPayload: QuestionSectionPayload
+    questionPayload: MoveQuestionDto
   ) {
     const { projectId, questionId } = questionPayload;
 

@@ -16,5 +16,6 @@ import { IncomingQuestionService } from "./incoming-question.service";
     QuestionModule,
   ],
   providers: [IncomingQuestionGateway, IncomingQuestionService],
+  exports: [IncomingQuestionService],
 })
 export class IncomingQuestionModule {}
