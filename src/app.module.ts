@@ -9,6 +9,7 @@ import { PresenterPermissionModule } from "./presenter-permission/presenter-perm
 import { ModeratorPermissionModule } from "./moderator-permission/moderator-permission.module";
 import { ProjectModule } from "./project/project.module";
 import { QuestionModule } from './question/question.module';
+import { IncomingQuestionModule } from './incoming-question/incoming-question.module';
 import configuration from "./config/configuration";
 
 @Module({
@@ -27,6 +28,7 @@ import configuration from "./config/configuration";
     ModeratorPermissionModule,
     ProjectModule,
     QuestionModule,
+    IncomingQuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
