@@ -5,6 +5,7 @@ import {
 } from "@nestjs/websockets";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
+import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { CreateIncomingQuestionDto } from "./dtos/create-incoming-question.dto";
 import { DeleteIncomingQuestionDto } from "./dtos/delete-incoming-question.dto";
 import { IncomingQuestionService } from "./incoming-question.service";
@@ -45,5 +46,18 @@ export class IncomingQuestionGateway {
       deleteIncomingQuestionDto
     );
     return { message: "Successfully deleted question from incoming question" };
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("move-incoming-question-to-moderator")
+  async moveQuestionToModeratorView(
+    @MessageBody() moveQuestionDto: MoveQuestionDto
+  ) {
+    await this.incomingQuestionService.moveQuestionToModeratorView(
+      moveQuestionDto
+    );
+    return { message: "Successfully move incoming question to moderator view" };
+    return moveQuestionDto;
+    return "move question";
   }
 }

@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
+import { ModeratorViewModule } from "src/moderator-view/moderator-view.module";
 import { QuestionModule } from "src/question/question.module";
 import {
   IncomingQuestion,
@@ -14,6 +15,7 @@ import { IncomingQuestionService } from "./incoming-question.service";
       { name: IncomingQuestionEntity.name, schema: IncomingQuestion },
     ]),
     QuestionModule,
+    ModeratorViewModule,
   ],
   providers: [IncomingQuestionGateway, IncomingQuestionService],
   exports: [IncomingQuestionService],

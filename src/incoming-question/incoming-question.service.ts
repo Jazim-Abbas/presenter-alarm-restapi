@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
+import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { GeneralQuestionService } from "src/common/services/general-question.service";
+import { ModeratorViewService } from "src/moderator-view/moderator-view.service";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { QuestionService } from "src/question/question.service";
-import { CreateIncomingQuestionDto } from "./dtos/create-incoming-question.dto";
-import { DeleteIncomingQuestionDto } from "./dtos/delete-incoming-question.dto";
 import { IncomingQuestionEntity } from "./entities/incoming-question.entity";
 
 @Injectable()
@@ -14,7 +14,8 @@ export class IncomingQuestionService extends GeneralQuestionService<IncomingQues
   constructor(
     @InjectModel(IncomingQuestionEntity.name)
     readonly incomingQuestionModel: Model<IncomingQuestionEntity>,
-    readonly questionService: QuestionService
+    readonly questionService: QuestionService,
+    private readonly moderatorViewService: ModeratorViewService
   ) {
     super(incomingQuestionModel, questionService);
   }
@@ -29,5 +30,10 @@ export class IncomingQuestionService extends GeneralQuestionService<IncomingQues
 
   async deleteIncomingQuestion(deleteQuestionDto: DeleteQuestionIdDto) {
     return this.deleteQuestionFromSection(deleteQuestionDto);
+  }
+
+  async moveQuestionToModeratorView(moveQuestionDto: MoveQuestionDto) {
+    await this.moderatorViewService.moveQuestion(moveQuestionDto);
+    await this.deleteIncomingQuestion(moveQuestionDto);
   }
 }
