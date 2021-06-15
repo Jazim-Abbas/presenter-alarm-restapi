@@ -25,6 +25,8 @@ export class IncomingQuestionGateway {
   async createIncomingQuestion(
     @MessageBody() createIncomingQuestionDto: CreateIncomingQuestionDto
   ) {
-    return createIncomingQuestionDto;
+    return this.incomingQuestionService.saveIncomingQuestion(
+      createIncomingQuestionDto
+    );
   }
 }

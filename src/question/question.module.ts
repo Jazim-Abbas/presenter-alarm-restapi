@@ -13,5 +13,6 @@ import { QuestionService } from "./question.service";
     ProjectModule,
   ],
   providers: [QuestionGateway, QuestionService],
+  exports: [QuestionService],
 })
 export class QuestionModule {}
