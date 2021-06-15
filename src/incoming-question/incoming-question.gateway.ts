@@ -6,6 +6,7 @@ import {
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { CreateIncomingQuestionDto } from "./dtos/create-incoming-question.dto";
+import { DeleteIncomingQuestionDto } from "./dtos/delete-incoming-question.dto";
 import { IncomingQuestionService } from "./incoming-question.service";
 
 @WSExceptionInterceptor()
@@ -33,5 +34,16 @@ export class IncomingQuestionGateway {
     return this.incomingQuestionService.saveIncomingQuestion(
       createIncomingQuestionDto
     );
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("delete-incoming-question")
+  async deleteIncomingQuestion(
+    @MessageBody() deleteIncomingQuestionDto: DeleteIncomingQuestionDto
+  ) {
+    await this.incomingQuestionService.deleteIncomingQuestion(
+      deleteIncomingQuestionDto
+    );
+    return { message: "Successfully deleted question from incoming question" };
   }
 }
