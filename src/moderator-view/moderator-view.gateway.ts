@@ -13,9 +13,14 @@ import { ModeratorViewService } from "./moderator-view.service";
 export class ModeratorViewGateway {
   constructor(private readonly moderatorViewService: ModeratorViewService) {}
 
+  @SubscribeMessage("all-moderator-view-questions")
+  findAll() {
+    return this.moderatorViewService.getAllQuestions();
+  }
+
   @WsValidationPipe()
   @SubscribeMessage("create-moderator-view-question")
-  handleMessage(@MessageBody() createQuestionDto: CreateQuestionDto) {
+  createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
     return this.moderatorViewService.saveModeratorQuestion(createQuestionDto);
   }
 }

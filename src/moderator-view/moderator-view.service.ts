@@ -16,6 +16,10 @@ export class ModeratorViewService extends GeneralQuestionService<ModeratorViewEn
     super(moderatorViewModel, questionService);
   }
 
+  async getAllQuestions() {
+    return this.getAll();
+  }
+
   async saveModeratorQuestion(createQuestionDto: CreateQuestionDto) {
     return this.saveQuestionForSections(createQuestionDto);
   }
