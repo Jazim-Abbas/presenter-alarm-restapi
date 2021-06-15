@@ -1,8 +1,10 @@
+import { NotFoundException } from "@nestjs/common";
 import { FilterQuery, Model, UpdateQuery } from "mongoose";
 import { IncomingQuestionEntity } from "src/incoming-question/entities/incoming-question.entity";
 import { ModeratorViewEntity } from "src/moderator-view/entities/moderator-view.entity";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { QuestionService } from "src/question/question.service";
+import { DeleteQuestionIdDto } from "../dtos/delete-question-id.dto";
 
 interface QuestionSectionPayload {
   projectId: string;
@@ -42,6 +44,17 @@ export class GeneralQuestionService<
     );
   }
 
+  protected async deleteQuestionFromSection(
+    deleteQuestionIdDto: DeleteQuestionIdDto
+  ) {
+    const updatedQuestion = await this._removeQuestionIdFromSection(
+      deleteQuestionIdDto
+    );
+
+    if (!updatedQuestion)
+      throw new NotFoundException("Project or question not found");
+  }
+
   private async _saveAndGetNewlyCreatedQuestion(
     createQuestionDto: CreateQuestionDto
   ) {
@@ -60,6 +73,19 @@ export class GeneralQuestionService<
         { project: projectId } as FilterQuery<T>,
         { $push: { questions: questionId } } as UpdateQuery<T>,
         { new: true, upsert: true }
+      )
+      .exec();
+  }
+
+  private async _removeQuestionIdFromSection(
+    deleteQuestionIdDto: DeleteQuestionIdDto
+  ) {
+    const { questionId, projectId } = deleteQuestionIdDto;
+
+    return await this.questionModel
+      .findOneAndUpdate(
+        { project: projectId } as FilterQuery<T>,
+        { $pull: { questions: { $in: [questionId] } } } as UpdateQuery<T>
       )
       .exec();
   }

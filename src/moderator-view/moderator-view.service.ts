@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
 import { GeneralQuestionService } from "src/common/services/general-question.service";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { QuestionService } from "src/question/question.service";
@@ -22,5 +23,9 @@ export class ModeratorViewService extends GeneralQuestionService<ModeratorViewEn
 
   async saveModeratorQuestion(createQuestionDto: CreateQuestionDto) {
     return this.saveQuestionForSections(createQuestionDto);
+  }
+
+  async deleteModeratorQuestion(deleteQuestionDto: DeleteQuestionIdDto) {
+    return this.deleteQuestionFromSection(deleteQuestionDto);
   }
 }
