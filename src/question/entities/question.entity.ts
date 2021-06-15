@@ -9,7 +9,7 @@ export class QuestionEntity extends Document {
   name: string;
 
   @Prop()
-  qusetionText: string;
+  questionText: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: ProjectEntity.name })
   project: ProjectEntity;

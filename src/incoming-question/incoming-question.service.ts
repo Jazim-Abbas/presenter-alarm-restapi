@@ -14,6 +14,14 @@ export class IncomingQuestionService {
     private readonly questionService: QuestionService
   ) {}
 
+  async getAllIncomingQuestions() {
+    return this.incomingQuestionModel
+      .find()
+      .populate("project")
+      .populate("questions")
+      .exec();
+  }
+
   async saveIncomingQuestion(
     createIncomingQuestionDto: CreateIncomingQuestionDto
   ) {

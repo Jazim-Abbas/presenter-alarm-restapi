@@ -20,6 +20,11 @@ export class IncomingQuestionGateway {
     return "Incoming Question!";
   }
 
+  @SubscribeMessage("all-incoming-questions")
+  getAllIncomingQuestions() {
+    return this.incomingQuestionService.getAllIncomingQuestions();
+  }
+
   @WsValidationPipe()
   @SubscribeMessage("create-incoming-question")
   async createIncomingQuestion(
