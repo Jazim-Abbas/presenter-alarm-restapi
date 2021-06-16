@@ -12,7 +12,6 @@ export class TimerService {
 
   getTimeAsClock() {
     const timerValueInSeconds = this.timerValueInMS * 1000;
-    console.log(timerValueInSeconds);
 
     let seconds: Time = Math.floor((timerValueInSeconds / 1000) % 60);
     let minutes: Time = Math.floor((timerValueInSeconds / (1000 * 60)) % 60);
