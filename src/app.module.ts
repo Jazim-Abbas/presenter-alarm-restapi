@@ -15,6 +15,7 @@ import { PresenterViewModule } from './presenter-view/presenter-view.module';
 import { LiveQuestionModule } from './live-question/live-question.module';
 import { ArchiveQuestionModule } from './archive-question/archive-question.module';
 import { TimerModule } from './timer/timer.module';
+import { RemarkModule } from './remark/remark.module';
 import configuration from "./config/configuration";
 
 @Module({
@@ -39,6 +40,7 @@ import configuration from "./config/configuration";
     LiveQuestionModule,
     ArchiveQuestionModule,
     TimerModule,
+    RemarkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
