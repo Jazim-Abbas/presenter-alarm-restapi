@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ModeratorViewModule } from "src/moderator-view/moderator-view.module";
+import { PresenterViewModule } from "src/presenter-view/presenter-view.module";
 import { QuestionModule } from "src/question/question.module";
 import {
   IncomingQuestion,
@@ -16,6 +17,7 @@ import { IncomingQuestionService } from "./incoming-question.service";
     ]),
     QuestionModule,
     ModeratorViewModule,
+    PresenterViewModule,
   ],
   providers: [IncomingQuestionGateway, IncomingQuestionService],
   exports: [IncomingQuestionService],

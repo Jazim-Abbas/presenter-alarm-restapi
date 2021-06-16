@@ -16,5 +16,6 @@ import { PresenterViewService } from "./presenter-view.service";
     QuestionModule,
   ],
   providers: [PresenterViewGateway, PresenterViewService],
+  exports: [PresenterViewService],
 })
 export class PresenterViewModule {}

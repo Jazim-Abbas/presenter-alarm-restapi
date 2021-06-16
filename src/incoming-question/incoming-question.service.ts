@@ -5,6 +5,7 @@ import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
 import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { GeneralQuestionService } from "src/common/services/general-question.service";
 import { ModeratorViewService } from "src/moderator-view/moderator-view.service";
+import { PresenterViewService } from "src/presenter-view/presenter-view.service";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { QuestionService } from "src/question/question.service";
 import { IncomingQuestionEntity } from "./entities/incoming-question.entity";
@@ -15,7 +16,8 @@ export class IncomingQuestionService extends GeneralQuestionService<IncomingQues
     @InjectModel(IncomingQuestionEntity.name)
     protected readonly incomingQuestionModel: Model<IncomingQuestionEntity>,
     protected readonly questionService: QuestionService,
-    private readonly moderatorViewService: ModeratorViewService
+    private readonly moderatorViewService: ModeratorViewService,
+    private readonly presenterViewService: PresenterViewService
   ) {
     super(incomingQuestionModel, questionService);
   }
@@ -34,6 +36,11 @@ export class IncomingQuestionService extends GeneralQuestionService<IncomingQues
 
   async moveQuestionToModeratorView(moveQuestionDto: MoveQuestionDto) {
     await this.moderatorViewService.moveQuestion(moveQuestionDto);
+    await this.deleteIncomingQuestion(moveQuestionDto);
+  }
+
+  async moveQuestionToPresenterView(moveQuestionDto: MoveQuestionDto) {
+    await this.presenterViewService.moveQuestion(moveQuestionDto);
     await this.deleteIncomingQuestion(moveQuestionDto);
   }
 }

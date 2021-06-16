@@ -17,11 +17,6 @@ export class IncomingQuestionGateway {
     private readonly incomingQuestionService: IncomingQuestionService
   ) {}
 
-  @SubscribeMessage("incoming-question")
-  handleMessage() {
-    return "Incoming Question!";
-  }
-
   @SubscribeMessage("all-incoming-questions")
   getAllIncomingQuestions() {
     return this.incomingQuestionService.getAllQuestions();
@@ -57,7 +52,16 @@ export class IncomingQuestionGateway {
       moveQuestionDto
     );
     return { message: "Successfully move incoming question to moderator view" };
-    return moveQuestionDto;
-    return "move question";
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("move-incoming-question-to-presenter")
+  async moveQuestionToPresenterView(
+    @MessageBody() moveQuestionDto: MoveQuestionDto
+  ) {
+    await this.incomingQuestionService.moveQuestionToPresenterView(
+      moveQuestionDto
+    );
+    return { message: "Successfully move incoming question to presenter view" };
   }
 }
