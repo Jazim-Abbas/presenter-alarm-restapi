@@ -1,9 +1,12 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway } from "@nestjs/websockets";
+import { RemarkService } from "./remark.service";
 
-@WebSocketGateway()
+@WebSocketGateway({ namespace: "remarks" })
 export class RemarkGateway {
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+  constructor(private readonly remarkService: RemarkService) {}
+
+  @SubscribeMessage("create-remark")
+  handleMessage() {
+    return "Create new remark!";
   }
 }
