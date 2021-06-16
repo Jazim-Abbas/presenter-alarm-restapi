@@ -4,7 +4,7 @@ import * as mongoose from "mongoose";
 import { ProjectEntity } from "src/project/entities/project.entity";
 import { QuestionEntity } from "src/question/entities/question.entity";
 
-@Schema({ collection: "moderator_views" })
+@Schema({ collection: "presenter_views" })
 export class PresenterViewEntity extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: ProjectEntity.name })
   project: string;
