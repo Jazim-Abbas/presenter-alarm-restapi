@@ -6,6 +6,7 @@ import {
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
+import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { ModeratorViewService } from "./moderator-view.service";
 
@@ -34,5 +35,12 @@ export class ModeratorViewGateway {
       deleteQuestionIdDto
     );
     return { message: "Successfully delete question from moderator view" };
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("move-moderator-question-to-live")
+  async moveQuestionToLve(@MessageBody() moveQuestionDto: MoveQuestionDto) {
+    await this.moderatorViewService.moveQuestionToLiveQuestion(moveQuestionDto);
+    return { message: "Successfully move question to live" };
   }
 }

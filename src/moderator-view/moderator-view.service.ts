@@ -4,6 +4,7 @@ import { Model } from "mongoose";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
 import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { GeneralQuestionService } from "src/common/services/general-question.service";
+import { LiveQuestionService } from "src/live-question/live-question.service";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { QuestionService } from "src/question/question.service";
 import { ModeratorViewEntity } from "./entities/moderator-view.entity";
@@ -13,7 +14,8 @@ export class ModeratorViewService extends GeneralQuestionService<ModeratorViewEn
   constructor(
     @InjectModel(ModeratorViewEntity.name)
     protected readonly moderatorViewModel: Model<ModeratorViewEntity>,
-    protected readonly questionService: QuestionService
+    protected readonly questionService: QuestionService,
+    private readonly liveQuestionService: LiveQuestionService
   ) {
     super(moderatorViewModel, questionService);
   }
@@ -28,5 +30,10 @@ export class ModeratorViewService extends GeneralQuestionService<ModeratorViewEn
 
   async deleteModeratorQuestion(deleteQuestionDto: DeleteQuestionIdDto) {
     return this.deleteQuestionFromSection(deleteQuestionDto);
+  }
+
+  async moveQuestionToLiveQuestion(moveQuestionDto: MoveQuestionDto) {
+    await this.liveQuestionService.moveQuestion(moveQuestionDto);
+    await this.deleteModeratorQuestion(moveQuestionDto);
   }
 }

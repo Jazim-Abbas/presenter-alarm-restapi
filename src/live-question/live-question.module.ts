@@ -16,5 +16,6 @@ import { LiveQuestionService } from "./live-question.service";
     QuestionModule,
   ],
   providers: [LiveQuestionGateway, LiveQuestionService],
+  exports: [LiveQuestionService],
 })
 export class LiveQuestionModule {}
