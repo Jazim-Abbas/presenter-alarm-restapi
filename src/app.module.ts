@@ -12,6 +12,7 @@ import { QuestionModule } from './question/question.module';
 import { IncomingQuestionModule } from './incoming-question/incoming-question.module';
 import { ModeratorViewModule } from './moderator-view/moderator-view.module';
 import { PresenterViewModule } from './presenter-view/presenter-view.module';
+import { LiveQuestionModule } from './live-question/live-question.module';
 import configuration from "./config/configuration";
 
 @Module({
@@ -33,6 +34,7 @@ import configuration from "./config/configuration";
     IncomingQuestionModule,
     ModeratorViewModule,
     PresenterViewModule,
+    LiveQuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
