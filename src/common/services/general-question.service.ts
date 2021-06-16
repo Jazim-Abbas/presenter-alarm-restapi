@@ -11,8 +11,8 @@ export class GeneralQuestionService<
   T extends IncomingQuestionEntity | ModeratorViewEntity
 > {
   constructor(
-    private readonly questionModel: Model<T>,
-    readonly questionService: QuestionService
+    protected readonly questionModel: Model<T>,
+    protected readonly questionService: QuestionService
   ) {}
 
   protected async getAll() {

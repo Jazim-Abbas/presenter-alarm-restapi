@@ -13,8 +13,8 @@ import { IncomingQuestionEntity } from "./entities/incoming-question.entity";
 export class IncomingQuestionService extends GeneralQuestionService<IncomingQuestionEntity> {
   constructor(
     @InjectModel(IncomingQuestionEntity.name)
-    readonly incomingQuestionModel: Model<IncomingQuestionEntity>,
-    readonly questionService: QuestionService,
+    protected readonly incomingQuestionModel: Model<IncomingQuestionEntity>,
+    protected readonly questionService: QuestionService,
     private readonly moderatorViewService: ModeratorViewService
   ) {
     super(incomingQuestionModel, questionService);

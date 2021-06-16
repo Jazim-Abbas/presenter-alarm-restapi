@@ -12,8 +12,8 @@ import { ModeratorViewEntity } from "./entities/moderator-view.entity";
 export class ModeratorViewService extends GeneralQuestionService<ModeratorViewEntity> {
   constructor(
     @InjectModel(ModeratorViewEntity.name)
-    readonly moderatorViewModel: Model<ModeratorViewEntity>,
-    readonly questionService: QuestionService
+    protected readonly moderatorViewModel: Model<ModeratorViewEntity>,
+    protected readonly questionService: QuestionService
   ) {
     super(moderatorViewModel, questionService);
   }
