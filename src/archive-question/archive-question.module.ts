@@ -1,7 +1,20 @@
-import { Module } from '@nestjs/common';
-import { ArchiveQuestionGateway } from './archive-question.gateway';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { QuestionModule } from "src/question/question.module";
+import { ArchiveQuestionGateway } from "./archive-question.gateway";
+import {
+  ArchivedQuestion,
+  ArchivedQuestionEntity,
+} from "./entities/archive-question.entity";
+import { ArchiveQuestionService } from './archive-question.service';
 
 @Module({
-  providers: [ArchiveQuestionGateway]
+  imports: [
+    MongooseModule.forFeature([
+      { name: ArchivedQuestionEntity.name, schema: ArchivedQuestion },
+    ]),
+    QuestionModule,
+  ],
+  providers: [ArchiveQuestionGateway, ArchiveQuestionService],
 })
 export class ArchiveQuestionModule {}
