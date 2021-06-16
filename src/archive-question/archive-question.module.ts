@@ -6,7 +6,7 @@ import {
   ArchivedQuestion,
   ArchivedQuestionEntity,
 } from "./entities/archive-question.entity";
-import { ArchiveQuestionService } from './archive-question.service';
+import { ArchiveQuestionService } from "./archive-question.service";
 
 @Module({
   imports: [
@@ -16,5 +16,6 @@ import { ArchiveQuestionService } from './archive-question.service';
     QuestionModule,
   ],
   providers: [ArchiveQuestionGateway, ArchiveQuestionService],
+  exports: [ArchiveQuestionService],
 })
 export class ArchiveQuestionModule {}
