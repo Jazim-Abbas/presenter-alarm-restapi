@@ -6,6 +6,7 @@ import {
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
+import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { LiveQuestionService } from "./live-question.service";
 
 @WSExceptionInterceptor()
@@ -25,5 +26,12 @@ export class LiveQuestionGateway {
   ) {
     await this.liveQuestionService.deleteQuestion(deleteQuestionDto);
     return { message: "Successfully delete question from live questions " };
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("move-live-question-to-archived")
+  async moveQuestionToArchived(@MessageBody() moveQuetionDto: MoveQuestionDto) {
+    await this.liveQuestionService.moveQuestionToArchived(moveQuetionDto);
+    return { message: "Successfully move question to archived" };
   }
 }

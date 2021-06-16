@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
+import { ArchiveQuestionModule } from "src/archive-question/archive-question.module";
 import { QuestionModule } from "src/question/question.module";
 import {
   LiveQuestion,
@@ -14,6 +15,7 @@ import { LiveQuestionService } from "./live-question.service";
       { name: LiveQuestionEntity.name, schema: LiveQuestion },
     ]),
     QuestionModule,
+    ArchiveQuestionModule,
   ],
   providers: [LiveQuestionGateway, LiveQuestionService],
   exports: [LiveQuestionService],
