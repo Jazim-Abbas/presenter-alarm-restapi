@@ -6,6 +6,7 @@ import {
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { CreateRemarkDto } from "./dtos/create-remark.dto";
+import { UpdateRemarkDto } from "./dtos/update-remark.dto";
 import { RemarkService } from "./remark.service";
 
 @WSExceptionInterceptor()
@@ -15,7 +16,13 @@ export class RemarkGateway {
 
   @WsValidationPipe()
   @SubscribeMessage("create-remark")
-  handleMessage(@MessageBody() createRemarkDto: CreateRemarkDto) {
+  createRemark(@MessageBody() createRemarkDto: CreateRemarkDto) {
     return this.remarkService.saveRemark(createRemarkDto);
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("update-remark")
+  updateRemark(@MessageBody() updateRemarkDto: UpdateRemarkDto) {
+    return this.remarkService.updateRemark(updateRemarkDto);
   }
 }
