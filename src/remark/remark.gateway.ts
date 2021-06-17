@@ -8,7 +8,6 @@ import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decor
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { FindOneParam } from "src/common/dtos/find-one-param.dto";
 import { WSJwtAuthGuard } from "src/common/guards/ws-jwt-auth.guard";
-import { WSJwtStrategy } from "src/common/strategies/ws-jwt.strategy";
 import { CreateRemarkDto } from "./dtos/create-remark.dto";
 import { UpdateRemarkDto } from "./dtos/update-remark.dto";
 import { RemarkService } from "./remark.service";
