@@ -9,7 +9,7 @@ export class RemarkEntity extends Document {
   project: string;
 
   @Prop()
-  descripting: string;
+  description: string;
 }
 
 export const Remark = SchemaFactory.createForClass(RemarkEntity);
