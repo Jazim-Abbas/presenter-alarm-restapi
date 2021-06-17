@@ -28,4 +28,10 @@ export class RemarkService {
     if (!remarkInDb) throw new NotFoundException("Remark is not found");
     return remarkInDb;
   }
+
+  async deleteRemark(id: string) {
+    const deletedRemark = await this.remarkModel.findByIdAndDelete(id);
+    if (!deletedRemark || !deletedRemark.$isDeleted)
+      throw new NotFoundException("Remark not found");
+  }
 }
