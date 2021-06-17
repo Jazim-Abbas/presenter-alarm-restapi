@@ -1,3 +1,4 @@
+import { UseGuards } from "@nestjs/common";
 import {
   MessageBody,
   SubscribeMessage,
@@ -6,14 +7,22 @@ import {
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { FindOneParam } from "src/common/dtos/find-one-param.dto";
+import { WSJwtAuthGuard } from "src/common/guards/ws-jwt-auth.guard";
+import { WSJwtStrategy } from "src/common/strategies/ws-jwt.strategy";
 import { CreateRemarkDto } from "./dtos/create-remark.dto";
 import { UpdateRemarkDto } from "./dtos/update-remark.dto";
 import { RemarkService } from "./remark.service";
 
 @WSExceptionInterceptor()
-@WebSocketGateway({ namespace: "remarks" })
+@WebSocketGateway()
 export class RemarkGateway {
   constructor(private readonly remarkService: RemarkService) {}
+
+  @UseGuards(WSJwtAuthGuard)
+  @SubscribeMessage("all-remarks")
+  findAll() {
+    return "all remarks";
+  }
 
   @WsValidationPipe()
   @SubscribeMessage("create-remark")
