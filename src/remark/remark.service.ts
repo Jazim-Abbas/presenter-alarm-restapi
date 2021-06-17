@@ -12,6 +12,10 @@ export class RemarkService {
     private readonly remarkModel: Model<RemarkEntity>
   ) {}
 
+  async getAllRemarks() {
+    return this.remarkModel.find().exec();
+  }
+
   async saveRemark(createRemarkDto: CreateRemarkDto) {
     const { description, projectId } = createRemarkDto;
     const remark = new this.remarkModel({ description, project: projectId });

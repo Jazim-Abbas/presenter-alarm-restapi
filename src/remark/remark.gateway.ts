@@ -14,14 +14,14 @@ import { UpdateRemarkDto } from "./dtos/update-remark.dto";
 import { RemarkService } from "./remark.service";
 
 @WSExceptionInterceptor()
-@WebSocketGateway()
+@WebSocketGateway({ namespace: "remarks" })
 export class RemarkGateway {
   constructor(private readonly remarkService: RemarkService) {}
 
   @UseGuards(WSJwtAuthGuard)
   @SubscribeMessage("all-remarks")
   findAll() {
-    return "all remarks";
+    return this.remarkService.getAllRemarks();
   }
 
   @WsValidationPipe()
