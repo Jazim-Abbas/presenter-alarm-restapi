@@ -41,9 +41,11 @@ export class GeneralQuestionService<
       questionId: questionInDb._id,
     };
 
-    return this._saveQuestionForModeratorOrPresenterOrIncomingQuestion(
+    await this._saveQuestionForModeratorOrPresenterOrIncomingQuestion(
       questionPayload
     );
+
+    return questionInDb;
   }
 
   protected async deleteQuestionFromSection(

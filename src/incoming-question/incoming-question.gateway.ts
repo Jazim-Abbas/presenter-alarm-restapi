@@ -2,7 +2,9 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from "@nestjs/websockets";
+import { Server } from "socket.io";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
@@ -13,6 +15,8 @@ import { IncomingQuestionService } from "./incoming-question.service";
 @WSExceptionInterceptor()
 @WebSocketGateway()
 export class IncomingQuestionGateway {
+  @WebSocketServer() server: Server;
+
   constructor(
     private readonly incomingQuestionService: IncomingQuestionService
   ) {}
@@ -27,9 +31,13 @@ export class IncomingQuestionGateway {
   async createIncomingQuestion(
     @MessageBody() createIncomingQuestionDto: CreateIncomingQuestionDto
   ) {
-    return this.incomingQuestionService.saveIncomingQuestion(
-      createIncomingQuestionDto
-    );
+    const questionInDb =
+      await this.incomingQuestionService.saveIncomingQuestion(
+        createIncomingQuestionDto
+      );
+
+    this.server.emit("new-incoming-question", questionInDb);
+    return { message: "Question saved" };
   }
 
   @WsValidationPipe()
