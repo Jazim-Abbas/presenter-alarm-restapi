@@ -2,7 +2,9 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from "@nestjs/websockets";
+import { Server } from "socket.io";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
@@ -13,6 +15,8 @@ import { ModeratorViewService } from "./moderator-view.service";
 @WSExceptionInterceptor()
 @WebSocketGateway()
 export class ModeratorViewGateway {
+  @WebSocketServer() server: Server;
+
   constructor(private readonly moderatorViewService: ModeratorViewService) {}
 
   @SubscribeMessage("all-moderator-questions")
@@ -22,8 +26,13 @@ export class ModeratorViewGateway {
 
   @WsValidationPipe()
   @SubscribeMessage("create-moderator-question")
-  createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
-    return this.moderatorViewService.saveModeratorQuestion(createQuestionDto);
+  async createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
+    const questionInDb = await this.moderatorViewService.saveModeratorQuestion(
+      createQuestionDto
+    );
+
+    this.server.emit("new-moderator-question", questionInDb);
+    return { messasge: "Question saved now" };
   }
 
   @WsValidationPipe()
