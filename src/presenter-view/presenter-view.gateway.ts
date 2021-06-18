@@ -2,7 +2,9 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from "@nestjs/websockets";
+import { Server } from "socket.io";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
@@ -13,6 +15,8 @@ import { PresenterViewService } from "./presenter-view.service";
 @WSExceptionInterceptor()
 @WebSocketGateway()
 export class PresenterViewGateway {
+  @WebSocketServer() server: Server;
+
   constructor(private readonly presenterViewService: PresenterViewService) {}
 
   @SubscribeMessage("all-presenter-questions")
@@ -22,8 +26,13 @@ export class PresenterViewGateway {
 
   @WsValidationPipe()
   @SubscribeMessage("create-presenter-question")
-  createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
-    return this.presenterViewService.savePresenterQuestion(createQuestionDto);
+  async createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {
+    const questionInDb = await this.presenterViewService.savePresenterQuestion(
+      createQuestionDto
+    );
+
+    this.server.emit("new-presenter-question", questionInDb);
+    return { message: "Question saved now" };
   }
 
   @WsValidationPipe()
