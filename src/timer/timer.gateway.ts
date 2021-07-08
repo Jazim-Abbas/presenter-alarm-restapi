@@ -6,7 +6,7 @@ import {
 import { Server } from "socket.io";
 import { TimerService } from "./timer.service";
 
-@WebSocketGateway({ namespace: "/timer" })
+@WebSocketGateway()
 export class TimerGateway {
   @WebSocketServer()
   private server: Server;
