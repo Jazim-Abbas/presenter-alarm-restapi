@@ -34,6 +34,21 @@
 - "delete-presenter-qusetion" accept params i.e. questionId (string), projectId (string)
 - "move-presenter-question-to-archived" accept params i.e questionId (string), projectId (string)
 
+#### Fire Event
+
+- "new-presenter-question"
+
+---
+
+### Moderator View
+
+#### Listeners
+
+- "all-moderator-questions", "create-moderator-question", "delete-moderator-question", "move-moderator-question-to-live"
+- "create-moderator-question" accept params i.e. name (string), questionText (string), project (string)
+- "delete-moderator-question" accept params i.e. questionId (string), projectId (string)
+- "move-moderator-question-to-live" accept params i.e. qusetionId (string), projectId (string)
 
 #### Fire Event
-- "new-presenter-question"
+
+- "new-moderator-question"
