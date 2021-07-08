@@ -13,7 +13,7 @@ import { UpdateRemarkDto } from "./dtos/update-remark.dto";
 import { RemarkService } from "./remark.service";
 
 @WSExceptionInterceptor()
-@WebSocketGateway({ namespace: "remarks" })
+@WebSocketGateway()
 export class RemarkGateway {
   constructor(private readonly remarkService: RemarkService) {}
 
