@@ -2,6 +2,12 @@
 
 ## WebSocket Info
 
+### Application Fire Event
+
+- "exception": any error that websocket throws it will automatically goes to "exception" listener that should be listen on the client side
+
+---
+
 ### Timer
 
 #### Listeners
