@@ -81,3 +81,10 @@
 - "new-incoming-question"
 
 ---
+
+### Archived Question
+
+#### Listeners
+
+- "delete-archived-question"
+- "delete-archived-qusetion" accept params i.e. questionId (string), projectId (string)
