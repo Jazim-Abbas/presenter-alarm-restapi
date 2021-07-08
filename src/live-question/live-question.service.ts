@@ -18,6 +18,10 @@ export class LiveQuestionService extends GeneralQuestionService<LiveQuestionEnti
     super(liveQuestionModel, questionService);
   }
 
+  async getAllQusetions() {
+    return this.getAll();
+  }
+
   async deleteQuestion(moveQuestionDto: MoveQuestionDto) {
     return this.deleteQuestionFromSection(moveQuestionDto);
   }

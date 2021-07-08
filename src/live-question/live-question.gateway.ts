@@ -19,6 +19,11 @@ export class LiveQuestionGateway {
     return "Hello world!";
   }
 
+  @SubscribeMessage("all-live-questions")
+  findAll() {
+    return this.liveQuestionService.getAllQusetions();
+  }
+
   @WsValidationPipe()
   @SubscribeMessage("delete-live-question")
   async saveLiveQuestion(
