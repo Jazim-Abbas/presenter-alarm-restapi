@@ -75,6 +75,10 @@
 - "delete-live-question" accept params i.e. questionId (string), projectId (string)
 - "move-live-question-to-archived" accept params i.e. questionId (string), projectId (string)
 
+#### Fire Event
+
+- "updated-live-questions"
+
 ---
 
 ### Incoming Question

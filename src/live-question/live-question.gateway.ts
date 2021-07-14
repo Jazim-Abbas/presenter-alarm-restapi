@@ -2,7 +2,9 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from "@nestjs/websockets";
+import { Server } from "socket.io";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
@@ -12,6 +14,8 @@ import { LiveQuestionService } from "./live-question.service";
 @WSExceptionInterceptor()
 @WebSocketGateway()
 export class LiveQuestionGateway {
+  @WebSocketServer() server: Server;
+
   constructor(private readonly liveQuestionService: LiveQuestionService) {}
 
   @SubscribeMessage("message")
@@ -30,6 +34,7 @@ export class LiveQuestionGateway {
     @MessageBody() deleteQuestionDto: DeleteQuestionIdDto
   ) {
     await this.liveQuestionService.deleteQuestion(deleteQuestionDto);
+    await this._updatedQuestions();
     return { message: "Successfully delete question from live questions " };
   }
 
@@ -37,6 +42,14 @@ export class LiveQuestionGateway {
   @SubscribeMessage("move-live-question-to-archived")
   async moveQuestionToArchived(@MessageBody() moveQuetionDto: MoveQuestionDto) {
     await this.liveQuestionService.moveQuestionToArchived(moveQuetionDto);
+    await this._updatedQuestions();
     return { message: "Successfully move question to archived" };
+  }
+
+  private async _updatedQuestions() {
+    this.server.emit(
+      "updated-live-questions",
+      await this.liveQuestionService.getAllQusetions()
+    );
   }
 }
