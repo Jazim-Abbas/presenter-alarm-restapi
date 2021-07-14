@@ -8,6 +8,8 @@ import { Server } from "socket.io";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
+import { ModeratorViewService } from "src/moderator-view/moderator-view.service";
+import { PresenterViewService } from "src/presenter-view/presenter-view.service";
 import { CreateIncomingQuestionDto } from "./dtos/create-incoming-question.dto";
 import { DeleteIncomingQuestionDto } from "./dtos/delete-incoming-question.dto";
 import { IncomingQuestionService } from "./incoming-question.service";
@@ -18,7 +20,9 @@ export class IncomingQuestionGateway {
   @WebSocketServer() server: Server;
 
   constructor(
-    private readonly incomingQuestionService: IncomingQuestionService
+    private readonly incomingQuestionService: IncomingQuestionService,
+    private readonly moderatorService: ModeratorViewService,
+    private readonly presenterService: PresenterViewService
   ) {}
 
   @SubscribeMessage("all-incoming-questions")
@@ -61,6 +65,7 @@ export class IncomingQuestionGateway {
       moveQuestionDto
     );
     await this._updatedQuestions();
+    await this._updateModeratorQuestion();
     return { message: "Successfully move incoming question to moderator view" };
   }
 
@@ -73,6 +78,7 @@ export class IncomingQuestionGateway {
       moveQuestionDto
     );
     await this._updatedQuestions();
+    await this._updatePresenterQuestion();
     return { message: "Successfully move incoming question to presenter view" };
   }
 
@@ -80,6 +86,20 @@ export class IncomingQuestionGateway {
     this.server.emit(
       "updated-incoming-questions",
       await this.incomingQuestionService.getAllQuestions()
+    );
+  }
+
+  private async _updateModeratorQuestion() {
+    this.server.emit(
+      "updated-moderator-questions",
+      await this.moderatorService.getAllQuestions()
+    );
+  }
+
+  private async _updatePresenterQuestion() {
+    this.server.emit(
+      "updated-presenter-questions",
+      await this.presenterService.getAllQuestions()
     );
   }
 }
