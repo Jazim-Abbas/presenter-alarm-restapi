@@ -48,6 +48,7 @@ export class IncomingQuestionGateway {
     await this.incomingQuestionService.deleteIncomingQuestion(
       deleteIncomingQuestionDto
     );
+    this._updatedQuestions();
     return { message: "Successfully deleted question from incoming question" };
   }
 
@@ -59,6 +60,7 @@ export class IncomingQuestionGateway {
     await this.incomingQuestionService.moveQuestionToModeratorView(
       moveQuestionDto
     );
+    this._updatedQuestions();
     return { message: "Successfully move incoming question to moderator view" };
   }
 
@@ -70,6 +72,14 @@ export class IncomingQuestionGateway {
     await this.incomingQuestionService.moveQuestionToPresenterView(
       moveQuestionDto
     );
+    this._updatedQuestions();
     return { message: "Successfully move incoming question to presenter view" };
+  }
+
+  private async _updatedQuestions() {
+    this.server.emit(
+      "updated-questions",
+      await this.incomingQuestionService.getAllQuestions()
+    );
   }
 }
