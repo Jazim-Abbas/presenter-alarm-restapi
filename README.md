@@ -29,6 +29,10 @@
 - "update-remark" accept these params as payload i.e. remarkId (string), description (string)
 - "delete-remark" accept these params as payload i.e. id (string)
 
+#### Fire Event
+
+- "update-remarks"
+
 ---
 
 ### Presenter View
@@ -85,6 +89,7 @@
 #### Fire Event
 
 - "new-incoming-question"
+- "update-incomin-questions"
 
 ---
 
