@@ -105,3 +105,6 @@
 
 - "delete-archived-question", "all-archived-qusetions"
 - "delete-archived-qusetion" accept params i.e. questionId (string), projectId (string)
+
+#### Fire Event
+- "updated-archived-questions"
