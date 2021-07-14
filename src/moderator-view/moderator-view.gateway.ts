@@ -9,6 +9,7 @@ import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decor
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
 import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
+import { PresenterViewService } from "src/presenter-view/presenter-view.service";
 import { CreateQuestionDto } from "src/question/dtos/create-question.dto";
 import { ModeratorViewService } from "./moderator-view.service";
 
@@ -17,7 +18,10 @@ import { ModeratorViewService } from "./moderator-view.service";
 export class ModeratorViewGateway {
   @WebSocketServer() server: Server;
 
-  constructor(private readonly moderatorViewService: ModeratorViewService) {}
+  constructor(
+    private readonly moderatorViewService: ModeratorViewService,
+    private readonly presenterService: PresenterViewService
+  ) {}
 
   @SubscribeMessage("all-moderator-questions")
   findAll() {
@@ -52,6 +56,7 @@ export class ModeratorViewGateway {
   async moveQuestionToLve(@MessageBody() moveQuestionDto: MoveQuestionDto) {
     await this.moderatorViewService.moveQuestionToLiveQuestion(moveQuestionDto);
     await this._updatedQuestions();
+    await this._updatePresenterQuestions();
     return { message: "Successfully move question to presenter" };
   }
 
@@ -59,6 +64,13 @@ export class ModeratorViewGateway {
     this.server.emit(
       "updated-moderator-questions",
       await this.moderatorViewService.getAllQuestions()
+    );
+  }
+
+  private async _updatePresenterQuestions() {
+    this.server.emit(
+      "updated-presenter-questions",
+      await this.presenterService.getAllQuestions()
     );
   }
 }
