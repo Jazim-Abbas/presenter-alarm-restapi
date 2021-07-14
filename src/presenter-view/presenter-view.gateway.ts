@@ -5,6 +5,7 @@ import {
   WebSocketServer,
 } from "@nestjs/websockets";
 import { Server } from "socket.io";
+import { ArchiveQuestionService } from "src/archive-question/archive-question.service";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
@@ -17,7 +18,10 @@ import { PresenterViewService } from "./presenter-view.service";
 export class PresenterViewGateway {
   @WebSocketServer() server: Server;
 
-  constructor(private readonly presenterViewService: PresenterViewService) {}
+  constructor(
+    private readonly presenterViewService: PresenterViewService,
+    private readonly archivedQuestionService: ArchiveQuestionService
+  ) {}
 
   @SubscribeMessage("all-presenter-questions")
   findAll() {
@@ -50,6 +54,7 @@ export class PresenterViewGateway {
   ) {
     await this.presenterViewService.moveQuestionToArchived(moveQuestionDto);
     await this._updatedQuestions();
+    await this._updatedArchivedQuestion();
     return { message: "Successfully move question to archived" };
   }
 
@@ -57,6 +62,13 @@ export class PresenterViewGateway {
     this.server.emit(
       "updated-presenter-questions",
       await this.presenterViewService.getAllQuestions()
+    );
+  }
+
+  private async _updatedArchivedQuestion() {
+    this.server.emit(
+      "updated-archived-questions",
+      await this.archivedQuestionService.getAllQuestions()
     );
   }
 }
