@@ -15,6 +15,11 @@ export class ArchiveQuestionGateway {
     private readonly archivedQuestionService: ArchiveQuestionService
   ) {}
 
+  @SubscribeMessage("all-incoming-questions")
+  getAllIncomingQuestions() {
+    return this.archivedQuestionService.getAllQuestions();
+  }
+
   @WsValidationPipe()
   @SubscribeMessage("delete-archived-question")
   async deleteQuestion(@MessageBody() deleteQuestionDto: DeleteQuestionIdDto) {

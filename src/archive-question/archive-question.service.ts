@@ -16,6 +16,10 @@ export class ArchiveQuestionService extends GeneralQuestionService<ArchivedQuest
     super(archivedQuestionModel, questionService);
   }
 
+  async getAllQuestions() {
+    return this.getAll();
+  }
+
   async deleteQuestion(deleteQuestionDto: DeleteQuestionIdDto) {
     return this.deleteQuestionFromSection(deleteQuestionDto);
   }
