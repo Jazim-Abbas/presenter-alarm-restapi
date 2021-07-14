@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { QuestionModule } from "src/question/question.module";
 import { ArchiveQuestionGateway } from "./archive-question.gateway";
@@ -7,6 +7,7 @@ import {
   ArchivedQuestionEntity,
 } from "./entities/archive-question.entity";
 import { ArchiveQuestionService } from "./archive-question.service";
+import { PresenterViewModule } from "src/presenter-view/presenter-view.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ArchiveQuestionService } from "./archive-question.service";
       { name: ArchivedQuestionEntity.name, schema: ArchivedQuestion },
     ]),
     QuestionModule,
+    forwardRef(() => PresenterViewModule),
   ],
   providers: [ArchiveQuestionGateway, ArchiveQuestionService],
   exports: [ArchiveQuestionService],
