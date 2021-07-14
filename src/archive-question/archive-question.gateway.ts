@@ -9,6 +9,7 @@ import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decor
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
 import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
+import { PresenterViewService } from "src/presenter-view/presenter-view.service";
 import { ArchiveQuestionService } from "./archive-question.service";
 
 @WSExceptionInterceptor()
@@ -17,7 +18,8 @@ export class ArchiveQuestionGateway {
   @WebSocketServer() server: Server;
 
   constructor(
-    private readonly archivedQuestionService: ArchiveQuestionService
+    private readonly archivedQuestionService: ArchiveQuestionService,
+    private readonly presenterService: PresenterViewService
   ) {}
 
   @SubscribeMessage("all-archived-questions")
@@ -34,13 +36,13 @@ export class ArchiveQuestionGateway {
   }
 
   @WsValidationPipe()
-  @SubscribeMessage("move-archived-to-presenter-question")
+  @SubscribeMessage("move-archived-question-to-presenter")
   async moveQuestionToArchived(
     @MessageBody() moveQuestionDto: MoveQuestionDto
   ) {
-    // await this.presenterViewService.moveQuestionToArchived(moveQuestionDto);
-    // await this._updatedQuestions();
-    // await this._updatedArchivedQuestion();
+    await this.archivedQuestionService.moveQuestionToPresenter(moveQuestionDto);
+    await this._updatedQuestions();
+    await this._updatedPresenterQuestions();
     return { message: "Successfully move question to archived" };
   }
 
@@ -48,6 +50,13 @@ export class ArchiveQuestionGateway {
     this.server.emit(
       "updated-archived-questions",
       await this.archivedQuestionService.getAllQuestions()
+    );
+  }
+
+  private async _updatedPresenterQuestions() {
+    this.server.emit(
+      "updated-presenter-questions",
+      await this.presenterService.getAllQuestions()
     );
   }
 }

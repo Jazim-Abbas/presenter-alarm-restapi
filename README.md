@@ -103,7 +103,7 @@
 
 #### Listeners
 
-- "delete-archived-question", "all-archived-qusetions"
+- "delete-archived-question", "all-archived-qusetions", "move-archived-question-to-presenter"
 - "delete-archived-qusetion" accept params i.e. questionId (string), projectId (string)
 
 #### Fire Event

@@ -29,6 +29,7 @@ export class ArchiveQuestionService extends GeneralQuestionService<ArchivedQuest
   }
 
   async moveQuestionToPresenter(moveQuestionDto: MoveQuestionDto) {
-    
+    await this.presenterService.moveQuestion(moveQuestionDto);
+    await this.deleteQuestion(moveQuestionDto);
   }
 }
