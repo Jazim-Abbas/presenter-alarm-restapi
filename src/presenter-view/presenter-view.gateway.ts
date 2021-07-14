@@ -39,6 +39,7 @@ export class PresenterViewGateway {
   @SubscribeMessage("delete-presenter-question")
   async deleteQuestion(@MessageBody() deleteQuestionDto: DeleteQuestionIdDto) {
     await this.presenterViewService.deletePresenterQuestion(deleteQuestionDto);
+    await this._updatedQuestions();
     return { message: "Successfully delete question from presenter view" };
   }
 
@@ -48,6 +49,14 @@ export class PresenterViewGateway {
     @MessageBody() moveQuestionDto: MoveQuestionDto
   ) {
     await this.presenterViewService.moveQuestionToArchived(moveQuestionDto);
+    await this._updatedQuestions();
     return { message: "Successfully move question to archived" };
+  }
+
+  private async _updatedQuestions() {
+    this.server.emit(
+      "updated-presenter-questions",
+      await this.presenterViewService.getAllQuestions()
+    );
   }
 }

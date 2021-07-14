@@ -47,6 +47,7 @@
 #### Fire Event
 
 - "new-presenter-question"
+- "updated-presenter-questions"
 
 ---
 
