@@ -15,7 +15,7 @@ export class ArchiveQuestionGateway {
     private readonly archivedQuestionService: ArchiveQuestionService
   ) {}
 
-  @SubscribeMessage("all-incoming-questions")
+  @SubscribeMessage("all-archived-questions")
   getAllIncomingQuestions() {
     return this.archivedQuestionService.getAllQuestions();
   }
