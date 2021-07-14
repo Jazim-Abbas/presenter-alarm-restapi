@@ -31,7 +31,7 @@
 
 #### Fire Event
 
-- "update-remarks"
+- "updated-remarks"
 
 ---
 
@@ -95,7 +95,7 @@
 #### Fire Event
 
 - "new-incoming-question"
-- "update-incomin-questions"
+- "updated-incoming-questions"
 
 ---
 
@@ -107,4 +107,5 @@
 - "delete-archived-qusetion" accept params i.e. questionId (string), projectId (string)
 
 #### Fire Event
+
 - "updated-archived-questions"

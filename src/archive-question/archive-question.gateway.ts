@@ -34,7 +34,7 @@ export class ArchiveQuestionGateway {
 
   private async _updatedQuestions() {
     this.server.emit(
-      "updated-live-questions",
+      "updated-archived-questions",
       await this.archivedQuestionService.getAllQuestions()
     );
   }
