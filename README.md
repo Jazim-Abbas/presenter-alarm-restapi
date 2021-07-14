@@ -55,7 +55,7 @@
 
 #### Listeners
 
-- "all-moderator-questions", "create-moderator-question", "delete-moderator-question", "move-moderator-question-to-live"
+- "all-moderator-questions", "create-moderator-question", "delete-moderator-question", "move-moderator-question-to-presenter"
 - "create-moderator-question" accept params i.e. name (string), questionText (string), project (string)
 - "delete-moderator-question" accept params i.e. questionId (string), projectId (string)
 - "move-moderator-question-to-live" accept params i.e. qusetionId (string), projectId (string)

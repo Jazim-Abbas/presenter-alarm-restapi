@@ -48,11 +48,11 @@ export class ModeratorViewGateway {
   }
 
   @WsValidationPipe()
-  @SubscribeMessage("move-moderator-question-to-live")
+  @SubscribeMessage("move-moderator-question-to-presenter")
   async moveQuestionToLve(@MessageBody() moveQuestionDto: MoveQuestionDto) {
     await this.moderatorViewService.moveQuestionToLiveQuestion(moveQuestionDto);
     await this._updatedQuestions();
-    return { message: "Successfully move question to live" };
+    return { message: "Successfully move question to presenter" };
   }
 
   private async _updatedQuestions() {

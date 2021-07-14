@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { LiveQuestionModule } from "src/live-question/live-question.module";
+import { PresenterViewModule } from "src/presenter-view/presenter-view.module";
 import { QuestionModule } from "src/question/question.module";
 import {
   ModeratorView,
@@ -16,6 +17,7 @@ import { ModeratorViewService } from "./moderator-view.service";
     ]),
     QuestionModule,
     LiveQuestionModule,
+    PresenterViewModule,
   ],
   providers: [ModeratorViewGateway, ModeratorViewService],
   exports: [ModeratorViewService],
