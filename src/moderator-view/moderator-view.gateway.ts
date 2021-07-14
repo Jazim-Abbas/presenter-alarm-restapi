@@ -43,6 +43,7 @@ export class ModeratorViewGateway {
     await this.moderatorViewService.deleteModeratorQuestion(
       deleteQuestionIdDto
     );
+    await this._updatedQuestions();
     return { message: "Successfully delete question from moderator view" };
   }
 
@@ -50,6 +51,14 @@ export class ModeratorViewGateway {
   @SubscribeMessage("move-moderator-question-to-live")
   async moveQuestionToLve(@MessageBody() moveQuestionDto: MoveQuestionDto) {
     await this.moderatorViewService.moveQuestionToLiveQuestion(moveQuestionDto);
+    await this._updatedQuestions();
     return { message: "Successfully move question to live" };
+  }
+
+  private async _updatedQuestions() {
+    this.server.emit(
+      "updated-moderator-questions",
+      await this.moderatorViewService.getAllQuestions()
+    );
   }
 }

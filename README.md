@@ -63,6 +63,7 @@
 #### Fire Event
 
 - "new-moderator-question"
+- "updated-moderator-questions"
 
 ---
 
