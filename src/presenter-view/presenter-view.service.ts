@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { ArchiveQuestionService } from "src/archive-question/archive-question.service";
@@ -15,6 +15,7 @@ export class PresenterViewService extends GeneralQuestionService<PresenterViewEn
     @InjectModel(PresenterViewEntity.name)
     protected readonly presenterViewModel: Model<PresenterViewEntity>,
     protected readonly questionService: QuestionService,
+    @Inject(forwardRef(() => ArchiveQuestionService))
     private readonly archivedQuestionService: ArchiveQuestionService
   ) {
     super(presenterViewModel, questionService);

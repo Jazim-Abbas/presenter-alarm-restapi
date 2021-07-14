@@ -8,6 +8,7 @@ import { Server } from "socket.io";
 import { WSExceptionInterceptor } from "src/common/decorators/ws-exception.decorator";
 import { WsValidationPipe } from "src/common/decorators/ws-validation.decorator";
 import { DeleteQuestionIdDto } from "src/common/dtos/delete-question-id.dto";
+import { MoveQuestionDto } from "src/common/dtos/move-question.dto";
 import { ArchiveQuestionService } from "./archive-question.service";
 
 @WSExceptionInterceptor()
@@ -30,6 +31,17 @@ export class ArchiveQuestionGateway {
     await this.archivedQuestionService.deleteQuestion(deleteQuestionDto);
     await this._updatedQuestions();
     return { message: "Successfully delete question from archived" };
+  }
+
+  @WsValidationPipe()
+  @SubscribeMessage("move-archived-to-presenter-question")
+  async moveQuestionToArchived(
+    @MessageBody() moveQuestionDto: MoveQuestionDto
+  ) {
+    // await this.presenterViewService.moveQuestionToArchived(moveQuestionDto);
+    // await this._updatedQuestions();
+    // await this._updatedArchivedQuestion();
+    return { message: "Successfully move question to archived" };
   }
 
   private async _updatedQuestions() {
