@@ -34,19 +34,23 @@ export class RemarkGateway {
 
   @WsValidationPipe()
   @SubscribeMessage("update-remark")
-  updateRemark(@MessageBody() updateRemarkDto: UpdateRemarkDto) {
-    return this.remarkService.updateRemark(updateRemarkDto);
+  async updateRemark(@MessageBody() updateRemarkDto: UpdateRemarkDto) {
+    const updatedRemark = await this.remarkService.updateRemark(
+      updateRemarkDto
+    );
+    await this._updatedRemarks();
+    return updatedRemark;
   }
 
   @WsValidationPipe()
   @SubscribeMessage("delete-remark")
   async deleteRemark(@MessageBody() deleteRemarkDto: FindOneParam) {
     await this.remarkService.deleteRemark(deleteRemarkDto.id);
-    await this._updatedQuestions();
+    await this._updatedRemarks();
     return { message: "Successfully delete remark" };
   }
 
-  private async _updatedQuestions() {
+  private async _updatedRemarks() {
     this.server.emit(
       "updated-remarks",
       await this.remarkService.getAllRemarks()
