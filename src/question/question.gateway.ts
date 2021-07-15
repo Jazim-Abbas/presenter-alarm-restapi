@@ -18,12 +18,6 @@ export class QuestionGateway {
 
   constructor(private readonly questionService: QuestionService) {}
 
-  @SubscribeMessage("messageToServer")
-  handle(): string {
-    return "Hello";
-    // return { event: "messageToClient", data: "Hello" };
-  }
-
   @WsValidationPipe()
   @SubscribeMessage("create-question")
   async createQuestion(@MessageBody() createQuestionDto: CreateQuestionDto) {

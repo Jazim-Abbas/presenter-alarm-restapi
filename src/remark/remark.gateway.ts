@@ -21,7 +21,6 @@ export class RemarkGateway {
 
   constructor(private readonly remarkService: RemarkService) {}
 
-  @UseGuards(WSJwtAuthGuard)
   @SubscribeMessage("all-remarks")
   findAll() {
     return this.remarkService.getAllRemarks();
