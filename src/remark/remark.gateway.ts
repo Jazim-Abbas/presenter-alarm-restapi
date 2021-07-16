@@ -28,8 +28,10 @@ export class RemarkGateway {
 
   @WsValidationPipe()
   @SubscribeMessage("create-remark")
-  createRemark(@MessageBody() createRemarkDto: CreateRemarkDto) {
-    return this.remarkService.saveRemark(createRemarkDto);
+  async createRemark(@MessageBody() createRemarkDto: CreateRemarkDto) {
+    const newRemark = await this.remarkService.saveRemark(createRemarkDto);
+    await this._updatedRemarks();
+    return newRemark;
   }
 
   @WsValidationPipe()
